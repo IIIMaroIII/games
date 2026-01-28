@@ -1,28 +1,48 @@
 package lt.esdc.naughtsAndCrosses;
 
 import java.util.Scanner;
+import java.util.function.Consumer;
 
 public class GameFlow {
     private final String X = new String(Character.toChars(0x1F532));
     private final String O = new String(Character.toChars(0x1F533));
     private final String emptySquare = new String(Character.toChars(0x2B1C));
+    private String winner = "";
 
-    public static void main(String[] args) throws NaughtsAndCrossesException {
+    public void main(String[] args) throws NaughtsAndCrossesException {
         Printer printer = new Printer();
         GameFlow gameFlow = new GameFlow();
+        Consumer<String> onWin = mark -> gameFlow.setWinner(mark);
         Validator validator = new Validator();
         Scanner scanner = new Scanner(System.in);
         String[][] matrix = gameFlow.initializeEmptyMatrix(3, 3);
-        printer.printMatrix(matrix);
-        String res = validator.didPlayerWin(matrix, gameFlow.getX()); // Player X
-        if (res != null) {
-            System.out.println("🎉 Winner is: " + res);
-        }
-
-        System.out.println("Player X, enter the cell: ");
+        printer.printMatrixWithNumbers(matrix);
+        validator.determineWinnerByMark(matrix, gameFlow.getO(), onWin);
+        printer.printFillCell(this.getX());
         int playerX = validator.parseInt(scanner.nextLine());
         printer.clearTerminal();
 
+    }
+
+    public void startRound() {
+
+    }
+
+
+    public String[][] initializeEmptyMatrix(int rows, int cols) throws NaughtsAndCrossesException {
+        String[][] matrix = new String[rows][cols];
+        for (int row = 0; row < matrix.length; row++) {
+            for (int col = 0; col < matrix[row].length; col++) {
+                if (row == 2 && col == 0 || row == 1 && col == 1 || row == 0 && col == 2) {
+                    matrix[row][col] = this.getO();
+                    continue;
+                }
+                matrix[row][col] = this.getEmptySquare();
+
+            }
+        }
+
+        return matrix;
     }
 
     public String getX() {
@@ -37,20 +57,14 @@ public class GameFlow {
         return this.emptySquare;
     }
 
-    public String[][] initializeEmptyMatrix(int rows, int cols) throws NaughtsAndCrossesException {
-        String[][] matrix = new String[rows][cols];
-        for (int row = 0; row < matrix.length; row++) {
-            for (int col = 0; col < matrix[row].length; col++) {
-                if (row == 1 && col == 1 || row == 2 && col == 1 || row == 0 && col == 2 || row == 1 && col == 2 || row == 2 && col == 2) {
-                    matrix[row][col] = this.getX();
-                    continue;
-                }
-                matrix[row][col] = this.getEmptySquare();
+    public void setWinner(String mark) {
+        this.winner = mark;
 
-            }
-        }
-
-        return matrix;
     }
+
+    public String getWinner() {
+        return this.winner;
+    }
+
 
 }
