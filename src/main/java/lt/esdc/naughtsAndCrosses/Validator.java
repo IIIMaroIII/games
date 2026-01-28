@@ -13,7 +13,10 @@ public class Validator {
         }
     }
 
-    public boolean isCellEmpty(String[][] matrix, int row, int col, String mark) {
+    public boolean isCellEmpty(String[][] matrix, String userInput, String mark) throws NaughtsAndCrossesException {
+        String[] arr = userInput.split("-");
+        int row = parseInt(arr[0]);
+        int col = parseInt(arr[1]);
         return matrix[row][col].equals(mark);
     }
 
