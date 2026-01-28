@@ -14,12 +14,14 @@ public class GameFlow {
         Scanner scanner = new Scanner(System.in);
         String[][] matrix = gameFlow.initializeEmptyMatrix(3, 3);
         printer.printMatrix(matrix);
-        validator.didPlayerXWin(matrix);
+        String res = validator.didPlayerWin(matrix, gameFlow.getX()); // Player X
+        if (res != null) {
+            System.out.println("🎉 Winner is: " + res);
+        }
 
         System.out.println("Player X, enter the cell: ");
         int playerX = validator.parseInt(scanner.nextLine());
-//        printer.clearTerminal();
-//        printer.printMatrix(gameFlow.initializeEmptyMatrix(3, 3));
+        printer.clearTerminal();
 
     }
 
@@ -39,7 +41,7 @@ public class GameFlow {
         String[][] matrix = new String[rows][cols];
         for (int row = 0; row < matrix.length; row++) {
             for (int col = 0; col < matrix[row].length; col++) {
-                if (row == 0 && col == 0 || row == 1 && col == 0 || row == 2 && col == 0) {
+                if (row == 1 && col == 1 || row == 2 && col == 1 || row == 0 && col == 2 || row == 1 && col == 2 || row == 2 && col == 2) {
                     matrix[row][col] = this.getX();
                     continue;
                 }

@@ -11,42 +11,41 @@ public class Validator {
         }
     }
 
-    public boolean isCellEmpty(String[][] matrix, int row, int col) {
-        String emptyCell = new GameFlow().getEmptySquare();
-        return matrix[row][col].equals(emptyCell);
+    public boolean isCellEmpty(String[][] matrix, int row, int col, String mark) {
+        return matrix[row][col].equals(mark);
     }
 
-    public boolean didPlayerXWin(String[][] matrix) {
-        String cross = new GameFlow().getX();
+    public String didPlayerWin(String[][] matrix, String mark) {
 
-        int resultInRow = 0;
-        int resultInCol = 0;
+// Check only 3 in a row
         for (int r = 0; r < matrix.length; r++) {
-            int innerInRow = 0;
-            int innerInCol = 0;
-
-
+            int count = 0;
             for (int c = 0; c < matrix[r].length; c++) {
-                if (!matrix[r][c].equals(cross) || matrix[c][r].equals(cross)) continue;
-                if (matrix[r][c].equals(cross)) {
-                    innerInRow++;
+                if (matrix[r][c].equals(mark)) {
+                    count++;
                 }
-                if (matrix[c][r].equals(cross)) {
-                    innerInCol++;
-                }
-
             }
-            if (innerInRow == 3 || innerInCol == 3) {
-                System.out.println("Exiting ...");
-                break;
+            if (count == 3) {
+                System.out.println("Row is crossed, row number is: " + r);
+                return mark;
             }
-            resultInRow += innerInRow;
-            resultInCol += innerInCol;
-
-
         }
 
-        System.out.println("Counter in a col: " + resultInCol);
-        return false;
+        // Check only 3 in column
+        for (int c = 0; c < matrix[0].length; c++) {
+            int count = 0;
+            for (int r = 0; r < matrix.length; r++) {
+                if (matrix[r][c].equals(mark)) {
+                    count++;
+
+                }
+            }
+            if (count == 3) {
+                System.out.println("Column is crossed, column number is: " + c);
+                return mark;
+            }
+        }
+
+        return null;
     }
 }
