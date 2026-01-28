@@ -5,6 +5,7 @@ public class Printer {
 
     public void printMatrix(String[][] matrix) {
         for (int r = 0; r < matrix.length; r++) {
+            System.out.print("\t\t");
             for (int c = 0; c < matrix[r].length; c++) {
                 System.out.print(matrix[r][c]);
             }
