@@ -1,23 +1,40 @@
-package lt.esdc.naughtsAndCrosses;
+package lt.esdc.noughtsAndCrosses;
 
 import java.util.function.Consumer;
 
 public class Validator {
-    public int parseInt(String str) throws NaughtsAndCrossesException {
-        if (str == null) throw new NaughtsAndCrossesException("String is null");
-        if (str.isBlank()) throw new NaughtsAndCrossesException("String is empty");
+    public int parseInt(String str) throws NoughtsAndCrossesException {
+        if (str == null) throw new NoughtsAndCrossesException("String is null");
+        if (str.isBlank()) throw new NoughtsAndCrossesException("String is empty");
         try {
             return Integer.parseInt(str);
         } catch (NumberFormatException ex) {
-            throw new NaughtsAndCrossesException("The string " + str + " is not parsable.");
+            throw new NoughtsAndCrossesException("The string " + str + " is not parsable.");
         }
     }
 
-    public boolean isCellEmpty(String[][] matrix, String userInput, String mark) throws NaughtsAndCrossesException {
-        String[] arr = userInput.split("-");
-        int row = parseInt(arr[0]);
-        int col = parseInt(arr[1]);
-        return matrix[row][col].equals(mark);
+    public Validator validateStringIsNull(String str) throws NoughtsAndCrossesException {
+        if (str == null) throw new NoughtsAndCrossesException("String is null");
+        return this;
+    }
+
+    public Validator validateStringIsEmpty(String str) throws NoughtsAndCrossesException {
+        if (str.isBlank()) throw new NoughtsAndCrossesException("String is empty");
+        return this;
+    }
+
+    public boolean isStringFollowsPattern(String input, String regex) throws NoughtsAndCrossesException {
+        this.validateStringIsNull(input).validateStringIsEmpty(input);
+        boolean isMatched = input.matches(regex);
+        if (!isMatched)
+            throw new NoughtsAndCrossesException("User input doesn't match with pattern '2-2', " + "'5-4' etc");
+        return true;
+    }
+
+    public boolean isCellEmpty(String[][] matrix, int[] indices, String emptyMark) {
+        int row = indices[0];
+        int col = indices[1];
+        return matrix[row][col].equals(emptyMark);
     }
 
     public void determineWinnerByMark(String[][] matrix, String mark, Consumer<String> setter) {
