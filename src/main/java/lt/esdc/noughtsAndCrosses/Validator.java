@@ -70,7 +70,8 @@ public final class Validator {
                 }
             }
             if (count == 3) {
-                System.out.println("Row is crossed, row number is: " + r);
+                System.out.println("\t\t========================================");
+                System.out.printf("\t\t=== Row is crossed, row number is %d ===\n", r);
                 setter.accept(mark);
             }
         }
@@ -98,7 +99,8 @@ public final class Validator {
                 }
             }
             if (count == 3) {
-                System.out.println("Column is crossed, column number is: " + c);
+                System.out.println("\t\t========================================");
+                System.out.printf("\t\tColumn is crossed, column number is %d\n", c);
                 setter.accept(mark);
             }
         }
@@ -116,7 +118,8 @@ public final class Validator {
 
         }
         if (mainDiagonalCounter == 3) {
-            System.out.println("Main diagonal is crossed");
+            System.out.println("\t\t========================================");
+            System.out.println("\t\t====== Main  diagonal is crossed =======");
             setter.accept(mark);
         }
     }
@@ -134,7 +137,8 @@ public final class Validator {
 
         }
         if (secondaryDiagonalCounter == 3) {
-            System.out.println("Secondary diagonal is crossed");
+            System.out.println("\t\t========================================");
+            System.out.println("\t\t==== Secondary  diagonal is crossed ====");
             setter.accept(mark);
         }
     }
