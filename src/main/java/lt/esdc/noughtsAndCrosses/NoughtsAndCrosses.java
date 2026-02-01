@@ -1,6 +1,8 @@
-package lt.esdc.naughtsAndCrosses;
+package lt.esdc.noughtsAndCrosses;
 
-public class NaughtsAndCrosses {
+public class NoughtsAndCrosses {
     public static void main(String[] args) {
+        GameFlow gameFlow = new GameFlow();
+        gameFlow.init();
     }
- }
+}

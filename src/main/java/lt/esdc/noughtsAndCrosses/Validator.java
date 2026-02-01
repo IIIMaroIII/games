@@ -2,48 +2,66 @@ package lt.esdc.noughtsAndCrosses;
 
 import java.util.function.Consumer;
 
-public class Validator {
-    public int parseInt(String str) throws NoughtsAndCrossesException {
+public final class Validator {
+    private Validator() {
+    }
+
+    static int parseInt(String str) throws NoughtsAndCrossesException {
         if (str == null) throw new NoughtsAndCrossesException("String is null");
         if (str.isBlank()) throw new NoughtsAndCrossesException("String is empty");
         try {
             return Integer.parseInt(str);
         } catch (NumberFormatException ex) {
-            throw new NoughtsAndCrossesException("The string " + str + " is not parsable.");
+            throw new NoughtsAndCrossesException("\t❌ The string " + str + " is not parsable.");
         }
     }
 
-    public Validator validateStringIsNull(String str) throws NoughtsAndCrossesException {
-        if (str == null) throw new NoughtsAndCrossesException("String is null");
-        return this;
+    static void validateStrings(String... strings) throws NoughtsAndCrossesException {
+        for (String one : strings) {
+            if (one == null) throw new NoughtsAndCrossesException("\t❌ String is null");
+            if (one.isBlank()) throw new NoughtsAndCrossesException("\t❌ String is empty");
+        }
     }
 
-    public Validator validateStringIsEmpty(String str) throws NoughtsAndCrossesException {
-        if (str.isBlank()) throw new NoughtsAndCrossesException("String is empty");
-        return this;
+    static void fitToPattern(String input, String regex) throws NoughtsAndCrossesException {
+        validateStrings(input, regex);
+        if (!input.strip().matches(regex))
+            throw new NoughtsAndCrossesException("\t❌ User input doesn't match with pattern -> " + regex);
     }
 
-    public boolean isStringFollowsPattern(String input, String regex) throws NoughtsAndCrossesException {
-        this.validateStringIsNull(input).validateStringIsEmpty(input);
-        boolean isMatched = input.matches(regex);
-        if (!isMatched)
-            throw new NoughtsAndCrossesException("User input doesn't match with pattern '2-2', " + "'5-4' etc");
-        return true;
+    static int[] getIntegerArray(String str, String regex) throws NoughtsAndCrossesException {
+        validateStrings(str, regex);
+        fitToPattern(str, regex);
+        String[] arr = str.split("-");
+
+        int[] res = new int[arr.length];
+        for (int i = 0; i < arr.length; i++) {
+            res[i] = parseInt(arr[i]);
+        }
+
+        return res;
     }
 
-    public boolean isCellEmpty(String[][] matrix, int[] indices, String emptyMark) {
+    static void validateEmptyCell(String[][] matrix, int[] indices, String emptyMark) throws NoughtsAndCrossesException {
         int row = indices[0];
         int col = indices[1];
-        return matrix[row][col].equals(emptyMark);
+        if (!matrix[row][col].equals(emptyMark)) {
+            String errMsg = "\t❌ The cell at the row " + row + " and column " + col + " is not empty";
+            throw new NoughtsAndCrossesException(errMsg);
+        }
     }
 
-    public void determineWinnerByMark(String[][] matrix, String mark, Consumer<String> setter) {
-        threeInRow(matrix, mark, setter).threeInColumn(matrix, mark, setter)
-                .threeInMainDiagonal(matrix, mark, setter)
-                .threeInSecondaryDiagonal(matrix, mark, setter);
+    static void determineResult(String[][] matrix, String mark, Consumer<String> setter, int round) {
+
+        threeInRow(matrix, mark, setter);
+        threeInColumn(matrix, mark, setter);
+        threeInMainDiagonal(matrix, mark, setter);
+        threeInSecondaryDiagonal(matrix, mark, setter);
+        if (round >= 8) tie(matrix, mark, setter);
+
     }
 
-    private Validator threeInRow(String[][] matrix, String mark, Consumer<String> setter) {
+    private static void threeInRow(String[][] matrix, String mark, Consumer<String> setter) {
         for (int r = 0; r < matrix.length; r++) {
             int count = 0;
             for (int c = 0; c < matrix[r].length; c++) {
@@ -56,10 +74,22 @@ public class Validator {
                 setter.accept(mark);
             }
         }
-        return this;
     }
 
-    private Validator threeInColumn(String[][] matrix, String mark, Consumer<String> setter) {
+    private static void tie(String[][] matrix, String mark, Consumer<String> setter) {
+        int counter = 0;
+        for (String[] strings : matrix) {
+            for (String one : strings) {
+                if (!one.equals(GameFlow.getEmptySquare())) counter++;
+            }
+        }
+        if (counter == 9) {
+            setter.accept(GameFlow.getEmptySquare());
+        }
+
+    }
+
+    private static void threeInColumn(String[][] matrix, String mark, Consumer<String> setter) {
         for (int c = 0; c < matrix[0].length; c++) {
             int count = 0;
             for (int r = 0; r < matrix.length; r++) {
@@ -72,10 +102,9 @@ public class Validator {
                 setter.accept(mark);
             }
         }
-        return this;
     }
 
-    private Validator threeInMainDiagonal(String[][] matrix, String mark, Consumer<String> setter) {
+    private static void threeInMainDiagonal(String[][] matrix, String mark, Consumer<String> setter) {
         int mainDiagonalCounter = 0;
         for (int r = 0; r < matrix.length; r++) {
             for (int c = 0; c < matrix[r].length; c++) {
@@ -90,10 +119,9 @@ public class Validator {
             System.out.println("Main diagonal is crossed");
             setter.accept(mark);
         }
-        return this;
     }
 
-    private Validator threeInSecondaryDiagonal(String[][] matrix, String mark, Consumer<String> s) {
+    private static void threeInSecondaryDiagonal(String[][] matrix, String mark, Consumer<String> setter) {
         int secondaryDiagonalCounter = 0;
         for (int r = 0; r < matrix.length; r++) {
             int step = matrix.length - r - 1;
@@ -107,9 +135,8 @@ public class Validator {
         }
         if (secondaryDiagonalCounter == 3) {
             System.out.println("Secondary diagonal is crossed");
-            s.accept(mark);
+            setter.accept(mark);
         }
-        return this;
     }
 
 
