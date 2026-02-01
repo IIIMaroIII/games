@@ -4,8 +4,10 @@ import java.util.Arrays;
 import java.util.Scanner;
 
 public class GameFlow {
-    private static final String X = new String(Character.toChars(0x1F532));
-    private static final String O = new String(Character.toChars(0x1F533));
+    //    private static final String X = new String(Character.toChars(0x1F532)); //🔲
+    private static final String X = new String(Character.toChars(0x274C)); // ❌
+    private static final String O = new String(Character.toChars(0x2B55)); // ⭕
+    //    private static final String O = new String(Character.toChars(0x1F533)); //🔳
     private static final String emptySquare = new String(Character.toChars(0x2B1C));
     private static final String inputPattern = "^[0-2]-[0-2]$";
 
