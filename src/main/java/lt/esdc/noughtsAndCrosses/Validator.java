@@ -1,9 +1,15 @@
 package lt.esdc.noughtsAndCrosses;
 
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.function.Consumer;
 
 public final class Validator {
     private Validator() {
+    }
+
+    static void validateFileExist(Path path) throws NoughtsAndCrossesException {
+        if (!Files.exists(path)) throw new NoughtsAndCrossesException("File at the given path doesn't exist: " + path);
     }
 
     static int parseInt(String str) throws NoughtsAndCrossesException {

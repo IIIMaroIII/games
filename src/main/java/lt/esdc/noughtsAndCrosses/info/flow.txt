@@ -34,3 +34,14 @@
                 - сконфигурировать строку для tie
                 - засетить в winner
             - если нет -> next
+- FileProccessor
+    - cконфигурировать путь к файлу
+        - проверить валидный ли путь
+            - если нет throw new NoughtsAndCrossesException("The path is not valid: " + path)
+            - если да -> next
+        - проверить существует ли файл
+            - если нет throw new NoughtsAndCrossesException("File in the given path doesn't exist: " + path)
+            - если да -> next
+        - засетить путь в state
+    - создать пустой файл если не существует
+    - сконфигурировать строку с победителем и счетчиком игры

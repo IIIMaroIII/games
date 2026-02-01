@@ -64,15 +64,22 @@ public class GameFlow {
                 Printer.printMatrixWithNumbers(this.getMatrix());
                 Validator.determineResult(this.getMatrix(), mark, this::setWinner, this.round);
                 if (!this.getWinner().isBlank()) {
-                    Printer.printWinner(this.winner);
+                    String winnerString = Printer.createWinnerString(this.winner);
+                    Printer.printString(winnerString);
                     pointsCounter(this.winner);
-                    Printer.printScore(X, O, pointsPlayerX, pointsPlayerO);
+                    String score = Printer.createScoreString(X, O, pointsPlayerX, pointsPlayerO);
+                    Printer.printString(score);
+                    String contentToWrite = configureWinnerString(winnerString, score);
+                    FileManager.appendToFile(contentToWrite);
                     playAgain();
                 }
                 break;
             } catch (NoughtsAndCrossesException ex) {
                 System.err.println(ex.getMessage());
                 System.err.println("\t❌ Try again...");
+            } catch (Error error) {
+                System.err.println("🔧 Sorry, we've faced some unforeseen consequences\n" + error.getMessage());
+
             }
         }
 
@@ -141,5 +148,7 @@ public class GameFlow {
         this.arrayOfIndices = arr;
     }
 
-
+    public static String configureWinnerString(String... strings) {
+        return String.join("\n", strings);
+    }
 }

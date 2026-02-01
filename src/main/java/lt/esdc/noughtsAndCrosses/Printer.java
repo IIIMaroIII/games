@@ -29,6 +29,10 @@ public class Printer {
                 " ");
     }
 
+    static void printString(String str) {
+        System.out.println(str);
+    }
+
     static void printRepeatLine() {
         System.out.println("\t\t========================================");
         System.out.println("\t\t❓ Would you like to repeat the game ❓");
@@ -37,20 +41,19 @@ public class Printer {
         System.out.println("\t\t========================================");
     }
 
-    static void printWinner(String mark) {
+    static String createWinnerString(String mark) {
         if (mark.equals(GameFlow.getEmptySquare())) {
-            System.out.println("\t\t========================================");
-            System.out.println("\t\t💥==== Nobody's won! Here's a tie! =====");
-            System.out.println("\t\t========================================");
-            return;
+            String msg = "\t\t========================================\n\t\t💥==== Nobody's won! Here's a tie! " +
+                    "=====\n\t\t========================================\n";
+            return msg;
         }
-        System.out.println("\t\t========================================");
-        System.out.println("\t\t🎉 ===== Winner is: Player " + mark + " =====");
-        System.out.println("\t\t========================================");
+        String msg = "\t\t========================================\n\t\t🎉 ===== Winner is: Player " + mark + " " +
+                "=====\n\t\t========================================\n";
+        return msg;
     }
 
-    static void printScore(String X, String O, int pointsX, int pointsO) {
-        System.out.println("\t\t========================================");
-        System.out.printf("\t\t -- Player %s: %d -- VS -- Player %s: %d--\n", X, pointsX, O, pointsO);
+    static String createScoreString(String X, String O, int pointsX, int pointsO) {
+        return String.format("\t\t========================================\n" + "\t\t -- Player %s: %d -- VS " + "--" + " Player %s: %d--\n" + "\t\t========================================\n", X, pointsX, O, pointsO);
+
     }
 }
