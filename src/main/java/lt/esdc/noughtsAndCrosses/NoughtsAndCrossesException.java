@@ -5,8 +5,10 @@ public class NoughtsAndCrossesException extends Exception {
         super(msg);
 
     }
- 
+
     public NoughtsAndCrossesException(String msg, Throwable ex) {
         super(msg, ex);
     }
 }
+
+// new NoughtsAndCrossesException("asdasdasd")
