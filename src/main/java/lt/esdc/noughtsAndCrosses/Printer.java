@@ -25,8 +25,7 @@ public class Printer {
     }
 
     static void printFillCell(String mark) {
-        System.out.println("👉 Player " + mark + " , enter value followed by a format 'row-column' (1-2,0-0 etc):" +
-                " ");
+        System.out.println("👉 Player " + mark + " , enter value followed by a format " + "'row" + "-column' (1-2,0-0 etc):" + " ");
     }
 
     static void printString(String str) {
@@ -41,19 +40,26 @@ public class Printer {
         System.out.println("\t\t========================================");
     }
 
+    static void printExiting() {
+        System.out.println("\t\t========================================");
+        System.out.println("\t\t========= Exiting the game ... ========= ");
+        System.out.println("\t\t👋 Thanks for playing, catch you later 🥺");
+        System.out.println("\t\t========================================");
+    }
+
     static String createWinnerString(String mark) {
         if (mark.equals(GameFlow.getEmptySquare())) {
-            String msg = "\t\t========================================\n\t\t💥==== Nobody's won! Here's a tie! " +
-                    "=====\n\t\t========================================\n";
+            String msg = "\t\t========================================\n\t\t💥==== Nobody's won! "
+                    + "Here's a tie! " + "=====\n\t\t========================================\n";
             return msg;
         }
-        String msg = "\t\t========================================\n\t\t🎉 ===== Winner is: Player " + mark + " " +
-                "=====\n\t\t========================================\n";
+        String msg = "\t\t========================================\n\t\t🎉 ===== Winner is: " +
+                "Player " + mark + " " + "=====\n\t\t========================================\n";
         return msg;
     }
 
     static String createScoreString(String X, String O, int pointsX, int pointsO) {
-        return String.format("\t\t========================================\n" + "\t\t -- Player %s: %d -- VS " + "--" + " Player %s: %d--\n" + "\t\t========================================\n", X, pointsX, O, pointsO);
+        return String.format("\t\t========================================\n" + "\t\t -- Player " + "%s: %d -- VS " + "--" + " Player %s: %d--\n" + "\t\t" + "========================================\n", X, pointsX, O, pointsO);
 
     }
 }

@@ -9,7 +9,8 @@ public final class Validator {
     }
 
     static void validateFileExist(Path path) throws NoughtsAndCrossesException {
-        if (!Files.exists(path)) throw new NoughtsAndCrossesException("File at the given path doesn't exist: " + path);
+        if (!Files.exists(path))
+            throw new NoughtsAndCrossesException("File at the given path doesn't exist: " + path);
     }
 
     static int parseInt(String str) throws NoughtsAndCrossesException {
@@ -52,12 +53,14 @@ public final class Validator {
         int row = indices[0];
         int col = indices[1];
         if (!matrix[row][col].equals(emptyMark)) {
-            String errMsg = "\t❌ The cell at the row " + row + " and column " + col + " is not empty";
+            String errMsg =
+                    "\t❌ The cell at the row " + row + " and column " + col + " is not " + "empty";
             throw new NoughtsAndCrossesException(errMsg);
         }
     }
 
-    static void determineResult(String[][] matrix, String mark, Consumer<String> setter, int round) {
+    static void determineResult(String[][] matrix, String mark, Consumer<String> setter,
+                                int round) {
 
         threeInRow(matrix, mark, setter);
         threeInColumn(matrix, mark, setter);
@@ -112,7 +115,8 @@ public final class Validator {
         }
     }
 
-    private static void threeInMainDiagonal(String[][] matrix, String mark, Consumer<String> setter) {
+    private static void threeInMainDiagonal(String[][] matrix, String mark,
+                                            Consumer<String> setter) {
         int mainDiagonalCounter = 0;
         for (int r = 0; r < matrix.length; r++) {
             for (int c = 0; c < matrix[r].length; c++) {
@@ -130,7 +134,8 @@ public final class Validator {
         }
     }
 
-    private static void threeInSecondaryDiagonal(String[][] matrix, String mark, Consumer<String> setter) {
+    private static void threeInSecondaryDiagonal(String[][] matrix, String mark,
+                                                 Consumer<String> setter) {
         int secondaryDiagonalCounter = 0;
         for (int r = 0; r < matrix.length; r++) {
             int step = matrix.length - r - 1;
